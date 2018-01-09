@@ -12,6 +12,14 @@ More information can be found here:
 
 We are currently only vendoring the native components for both Kinect models on 64-bit Windows.
 
+## OpenGL Support
+
+This fork/build of UFDW does *NOT* support OpenGL; many of the method calls and classes have been removed entirely.
+
+JOGL is incompatible with many of our own 3D libraries and having it on the classpath is problematic.
+
+You should use the UFDW download from the UFDW website if you need OpenGL/JOGL support.
+
 ## Disclaimers
 
 Copied verbatim from the DWI Website:
