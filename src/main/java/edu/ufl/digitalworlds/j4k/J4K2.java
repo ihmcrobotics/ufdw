@@ -35,6 +35,8 @@ package edu.ufl.digitalworlds.j4k;
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import us.ihmc.tools.nativelibraries.NativeLibraryLoader;
+
 abstract public class J4K2 {
 
 	public static final int KinectCapabilities_None	= 0;
@@ -151,34 +153,20 @@ abstract public class J4K2 {
 	private int depth_resolution=-1;
 	private int initialized=0;
 	private int _id;
+
+	private static String nativeLibraryName = "";
 	
 	static
 	{
-		if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0)
-		 { 
-			if(System.getProperty("os.arch").toLowerCase().indexOf("86")>=0)
+		if (System.getProperty("os.name").toLowerCase().contains("win"))
+		{
+			if (System.getProperty("os.arch").toLowerCase().contains("86"))
 			{
-				try{
-					System.loadLibrary("ufdw_j4k2_32bit");
-					natives_loaded=true;
-				}
-				catch(UnsatisfiedLinkError e)
-				{
-					natives_loaded=false;
-					System.out.println("INFO: ufdw_j4k2_32bit.dll not loaded.");
-				}
+				nativeLibraryName = "ufdw_j4k2_32bit";
 			}
-			else if(System.getProperty("os.arch").toLowerCase().indexOf("64")>=0)
+			else if (System.getProperty("os.arch").toLowerCase().contains("64"))
 			{
-				try{
-					System.loadLibrary("ufdw_j4k2_64bit");
-					natives_loaded=true;
-				}
-				catch(UnsatisfiedLinkError e)
-				{
-					natives_loaded=false;
-					System.out.println("INFO: ufdw_j4k2_64bit.dll not loaded.");
-				}
+				nativeLibraryName = "ufdw_j4k2_64bit";
 			}
 			else 
 			{
@@ -186,11 +174,16 @@ abstract public class J4K2 {
 				System.out.println("ERROR: Could not load the native library of J4K (unknown architecture). ");
 			}
 		 }
-		 else
-		 {
-			 natives_loaded=false;
-			 System.out.println("ERROR: Microsoft's Kinect SDK is not installed in this computer.");
-		 }		
+
+		try
+		{
+			NativeLibraryLoader.loadLibrary("edu.ufl.digitalworlds", nativeLibraryName);
+		}
+		catch (UnsatisfiedLinkError e)
+		{
+			natives_loaded=false;
+			System.out.println("ERROR: Microsoft's Kinect SDK is not installed in this computer.");
+		}
 	}
 	
 	private static int id_counter=0;
