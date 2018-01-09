@@ -8,10 +8,6 @@ More information can be found here:
 
 - http://research.dwi.ufl.edu/ufdw/index.php
 
-## Supported Platforms
-
-We are currently only vendoring the native components for both Kinect models on 64-bit Windows.
-
 ## OpenGL Support
 
 This fork/build of UFDW does *NOT* support OpenGL; many of the method calls and classes have been removed entirely.
