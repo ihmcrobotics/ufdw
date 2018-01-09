@@ -1,9 +1,9 @@
 package edu.ufl.digitalworlds.j4k;
 
+import edu.ufl.digitalworlds.math.Geom;
+
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
-import edu.ufl.digitalworlds.math.Geom;
-import javax.media.opengl.GL2;
 
 /*
  * Copyright 2011-2014, Digital Worlds Institute, University of 
@@ -814,156 +814,156 @@ public class Skeleton
 				       -nrm[0],nrm[1],nrm[2],transf,inv_transf);
 	}
 	
-	public void draw(GL2 gl)
-	{
-		
-			
-			if(skeleton_tracked)
-			{	
-				//1 MAIN BODY: HIP_CENTER, SPINE, SHOULDER_CENTER, HEAD
-				gl.glBegin(GL2.GL_LINES);
-			
-				if(isJointTrackedOrInferred(SPINE_BASE)&&isJointTrackedOrInferred(SPINE_MID))
-				{
-					gl.glVertex3f(-get3DJointX(SPINE_BASE),get3DJointY(SPINE_BASE),-get3DJointZ(SPINE_BASE));
-					gl.glVertex3f(-get3DJointX(SPINE_MID),get3DJointY(SPINE_MID),-get3DJointZ(SPINE_MID));
-				}
-				if(isJointTrackedOrInferred(NECK)&&isJointTrackedOrInferred(SPINE_MID))
-				{
-					gl.glVertex3f(-get3DJointX(SPINE_MID),get3DJointY(SPINE_MID),-get3DJointZ(SPINE_MID));
-					gl.glVertex3f(-get3DJointX(NECK),get3DJointY(NECK),-get3DJointZ(NECK));
-				}
-				if(isJointTrackedOrInferred(NECK)&&isJointTrackedOrInferred(HEAD))
-				{
-					gl.glVertex3f(-get3DJointX(NECK),get3DJointY(NECK),-get3DJointZ(NECK));
-					gl.glVertex3f(-get3DJointX(HEAD),get3DJointY(HEAD),-get3DJointZ(HEAD));
-				}
-				
-				gl.glEnd();
-
-				//2 LEFT ARM: SHOULDER_CENTER, SHOULDER_LEFT, ELBOW_LEFT, WRIST_LEFT, HAND_LEFT
-				gl.glBegin(GL2.GL_LINES);
-				
-				if(isJointTrackedOrInferred(NECK)&&isJointTrackedOrInferred(SHOULDER_LEFT))
-				{	
-					gl.glVertex3f(-get3DJointX(NECK),get3DJointY(NECK),-get3DJointZ(NECK));
-					gl.glVertex3f(-get3DJointX(SHOULDER_LEFT),get3DJointY(SHOULDER_LEFT),-get3DJointZ(SHOULDER_LEFT));
-				}
-				if(isJointTrackedOrInferred(SHOULDER_LEFT)&&isJointTrackedOrInferred(ELBOW_LEFT))
-				{
-					gl.glVertex3f(-get3DJointX(SHOULDER_LEFT),get3DJointY(SHOULDER_LEFT),-get3DJointZ(SHOULDER_LEFT));
-					gl.glVertex3f(-get3DJointX(ELBOW_LEFT),get3DJointY(ELBOW_LEFT),-get3DJointZ(ELBOW_LEFT));
-				}
-				if(isJointTrackedOrInferred(ELBOW_LEFT)&&isJointTrackedOrInferred(WRIST_LEFT))
-				{
-					gl.glVertex3f(-get3DJointX(ELBOW_LEFT),get3DJointY(ELBOW_LEFT),-get3DJointZ(ELBOW_LEFT));
-					gl.glVertex3f(-get3DJointX(WRIST_LEFT),get3DJointY(WRIST_LEFT),-get3DJointZ(WRIST_LEFT));
-				}
-				if(isJointTrackedOrInferred(WRIST_LEFT)&&isJointTrackedOrInferred(HAND_LEFT))
-				{
-					gl.glVertex3f(-get3DJointX(WRIST_LEFT),get3DJointY(WRIST_LEFT),-get3DJointZ(WRIST_LEFT));
-					gl.glVertex3f(-get3DJointX(HAND_LEFT),get3DJointY(HAND_LEFT),-get3DJointZ(HAND_LEFT));
-				}
-				if(isJointTrackedOrInferred(HAND_TIP_LEFT)&&isJointTrackedOrInferred(HAND_LEFT))
-				{
-					gl.glVertex3f(-get3DJointX(HAND_TIP_LEFT),get3DJointY(HAND_TIP_LEFT),-get3DJointZ(HAND_TIP_LEFT));
-					gl.glVertex3f(-get3DJointX(HAND_LEFT),get3DJointY(HAND_LEFT),-get3DJointZ(HAND_LEFT));
-				}
-				if(isJointTrackedOrInferred(THUMB_LEFT)&&isJointTrackedOrInferred(HAND_LEFT))
-				{
-					gl.glVertex3f(-get3DJointX(THUMB_LEFT),get3DJointY(THUMB_LEFT),-get3DJointZ(THUMB_LEFT));
-					gl.glVertex3f(-get3DJointX(HAND_LEFT),get3DJointY(HAND_LEFT),-get3DJointZ(HAND_LEFT));
-				}
-				
-				gl.glEnd();
-
-				//3 RIGHT ARM: SHOULDER_CENTER, SHOULDER_RIGHT, ELBOW_RIGHT, WRIST_RIGHT, HAND_RIGHT
-				gl.glBegin(GL2.GL_LINES);
-				
-				if(isJointTrackedOrInferred(NECK)&&isJointTrackedOrInferred(SHOULDER_RIGHT))
-				{	
-					gl.glVertex3f(-get3DJointX(NECK),get3DJointY(NECK),-get3DJointZ(NECK));
-					gl.glVertex3f(-get3DJointX(SHOULDER_RIGHT),get3DJointY(SHOULDER_RIGHT),-get3DJointZ(SHOULDER_RIGHT));
-				}
-				if(isJointTrackedOrInferred(SHOULDER_RIGHT)&&isJointTrackedOrInferred(ELBOW_RIGHT))
-				{
-					gl.glVertex3f(-get3DJointX(SHOULDER_RIGHT),get3DJointY(SHOULDER_RIGHT),-get3DJointZ(SHOULDER_RIGHT));
-					gl.glVertex3f(-get3DJointX(ELBOW_RIGHT),get3DJointY(ELBOW_RIGHT),-get3DJointZ(ELBOW_RIGHT));
-				}
-				if(isJointTrackedOrInferred(ELBOW_RIGHT)&&isJointTrackedOrInferred(WRIST_RIGHT))
-				{
-					gl.glVertex3f(-get3DJointX(ELBOW_RIGHT),get3DJointY(ELBOW_RIGHT),-get3DJointZ(ELBOW_RIGHT));
-					gl.glVertex3f(-get3DJointX(WRIST_RIGHT),get3DJointY(WRIST_RIGHT),-get3DJointZ(WRIST_RIGHT));
-				}
-				if(isJointTrackedOrInferred(WRIST_RIGHT)&&isJointTrackedOrInferred(HAND_RIGHT))
-				{
-					gl.glVertex3f(-get3DJointX(WRIST_RIGHT),get3DJointY(WRIST_RIGHT),-get3DJointZ(WRIST_RIGHT));
-					gl.glVertex3f(-get3DJointX(HAND_RIGHT),get3DJointY(HAND_RIGHT),-get3DJointZ(HAND_RIGHT));
-				}
-				if(isJointTrackedOrInferred(HAND_TIP_RIGHT)&&isJointTrackedOrInferred(HAND_RIGHT))
-				{
-					gl.glVertex3f(-get3DJointX(HAND_TIP_RIGHT),get3DJointY(HAND_TIP_RIGHT),-get3DJointZ(HAND_TIP_RIGHT));
-					gl.glVertex3f(-get3DJointX(HAND_RIGHT),get3DJointY(HAND_RIGHT),-get3DJointZ(HAND_RIGHT));
-				}
-				if(isJointTrackedOrInferred(THUMB_RIGHT)&&isJointTrackedOrInferred(HAND_RIGHT))
-				{
-					gl.glVertex3f(-get3DJointX(THUMB_RIGHT),get3DJointY(THUMB_RIGHT),-get3DJointZ(THUMB_RIGHT));
-					gl.glVertex3f(-get3DJointX(HAND_RIGHT),get3DJointY(HAND_RIGHT),-get3DJointZ(HAND_RIGHT));
-				}
-				
-				gl.glEnd();
-
-				//4 LEFT LEG: HIP_CENTER, HIP_LEFT, KNEE_LEFT, ANKLE_LEFT, FOOT_LEFT
-				gl.glBegin(GL2.GL_LINES);
-				if(isJointTrackedOrInferred(SPINE_BASE)&&isJointTrackedOrInferred(HIP_LEFT))
-				{
-					gl.glVertex3f(-get3DJointX(SPINE_BASE),get3DJointY(SPINE_BASE),-get3DJointZ(SPINE_BASE));
-					gl.glVertex3f(-get3DJointX(HIP_LEFT),get3DJointY(HIP_LEFT),-get3DJointZ(HIP_LEFT));
-				}
-				if(isJointTrackedOrInferred(HIP_LEFT)&&isJointTrackedOrInferred(KNEE_LEFT))
-				{
-					gl.glVertex3f(-get3DJointX(HIP_LEFT),get3DJointY(HIP_LEFT),-get3DJointZ(HIP_LEFT));
-					gl.glVertex3f(-get3DJointX(KNEE_LEFT),get3DJointY(KNEE_LEFT),-get3DJointZ(KNEE_LEFT));
-				}
-				if(isJointTrackedOrInferred(KNEE_LEFT)&&isJointTrackedOrInferred(ANKLE_LEFT))
-				{
-					gl.glVertex3f(-get3DJointX(KNEE_LEFT),get3DJointY(KNEE_LEFT),-get3DJointZ(KNEE_LEFT));
-					gl.glVertex3f(-get3DJointX(ANKLE_LEFT),get3DJointY(ANKLE_LEFT),-get3DJointZ(ANKLE_LEFT));
-				}
-				if(isJointTrackedOrInferred(ANKLE_LEFT)&&isJointTrackedOrInferred(FOOT_LEFT))
-				{
-					gl.glVertex3f(-get3DJointX(ANKLE_LEFT),get3DJointY(ANKLE_LEFT),-get3DJointZ(ANKLE_LEFT));
-					gl.glVertex3f(-get3DJointX(FOOT_LEFT),get3DJointY(FOOT_LEFT),-get3DJointZ(FOOT_LEFT));
-				}
-				gl.glEnd();
-
-				//5 RIGHT LEG: HIP_CENTER, HIP_RIGHT, KNEE_RIGHT, ANKLE_RIGHT, FOOT_RIGHT
-				gl.glBegin(GL2.GL_LINES);
-				if(isJointTrackedOrInferred(SPINE_BASE)&&isJointTrackedOrInferred(HIP_RIGHT))
-				{
-					gl.glVertex3f(-get3DJointX(SPINE_BASE),get3DJointY(SPINE_BASE),-get3DJointZ(SPINE_BASE));
-					gl.glVertex3f(-get3DJointX(HIP_RIGHT),get3DJointY(HIP_RIGHT),-get3DJointZ(HIP_RIGHT));
-				}
-				if(isJointTrackedOrInferred(HIP_RIGHT)&&isJointTrackedOrInferred(KNEE_RIGHT))
-				{
-					gl.glVertex3f(-get3DJointX(HIP_RIGHT),get3DJointY(HIP_RIGHT),-get3DJointZ(HIP_RIGHT));
-					gl.glVertex3f(-get3DJointX(KNEE_RIGHT),get3DJointY(KNEE_RIGHT),-get3DJointZ(KNEE_RIGHT));
-				}
-				if(isJointTrackedOrInferred(KNEE_RIGHT)&&isJointTrackedOrInferred(ANKLE_RIGHT))
-				{
-					gl.glVertex3f(-get3DJointX(KNEE_RIGHT),get3DJointY(KNEE_RIGHT),-get3DJointZ(KNEE_RIGHT));
-					gl.glVertex3f(-get3DJointX(ANKLE_RIGHT),get3DJointY(ANKLE_RIGHT),-get3DJointZ(ANKLE_RIGHT));
-				}
-				if(isJointTrackedOrInferred(ANKLE_RIGHT)&&isJointTrackedOrInferred(FOOT_RIGHT))
-				{
-					gl.glVertex3f(-get3DJointX(ANKLE_RIGHT),get3DJointY(ANKLE_RIGHT),-get3DJointZ(ANKLE_RIGHT));
-					gl.glVertex3f(-get3DJointX(FOOT_RIGHT),get3DJointY(FOOT_RIGHT),-get3DJointZ(FOOT_RIGHT));
-				}
-				gl.glEnd();
-				
-			}
-		
-	}
+//	public void draw(GL2 gl)
+	//	{
+	//
+	//
+	//			if(skeleton_tracked)
+	//			{
+	//				//1 MAIN BODY: HIP_CENTER, SPINE, SHOULDER_CENTER, HEAD
+	//				gl.glBegin(GL2.GL_LINES);
+	//
+	//				if(isJointTrackedOrInferred(SPINE_BASE)&&isJointTrackedOrInferred(SPINE_MID))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(SPINE_BASE),get3DJointY(SPINE_BASE),-get3DJointZ(SPINE_BASE));
+	//					gl.glVertex3f(-get3DJointX(SPINE_MID),get3DJointY(SPINE_MID),-get3DJointZ(SPINE_MID));
+	//				}
+	//				if(isJointTrackedOrInferred(NECK)&&isJointTrackedOrInferred(SPINE_MID))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(SPINE_MID),get3DJointY(SPINE_MID),-get3DJointZ(SPINE_MID));
+	//					gl.glVertex3f(-get3DJointX(NECK),get3DJointY(NECK),-get3DJointZ(NECK));
+	//				}
+	//				if(isJointTrackedOrInferred(NECK)&&isJointTrackedOrInferred(HEAD))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(NECK),get3DJointY(NECK),-get3DJointZ(NECK));
+	//					gl.glVertex3f(-get3DJointX(HEAD),get3DJointY(HEAD),-get3DJointZ(HEAD));
+	//				}
+	//
+	//				gl.glEnd();
+	//
+	//				//2 LEFT ARM: SHOULDER_CENTER, SHOULDER_LEFT, ELBOW_LEFT, WRIST_LEFT, HAND_LEFT
+	//				gl.glBegin(GL2.GL_LINES);
+	//
+	//				if(isJointTrackedOrInferred(NECK)&&isJointTrackedOrInferred(SHOULDER_LEFT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(NECK),get3DJointY(NECK),-get3DJointZ(NECK));
+	//					gl.glVertex3f(-get3DJointX(SHOULDER_LEFT),get3DJointY(SHOULDER_LEFT),-get3DJointZ(SHOULDER_LEFT));
+	//				}
+	//				if(isJointTrackedOrInferred(SHOULDER_LEFT)&&isJointTrackedOrInferred(ELBOW_LEFT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(SHOULDER_LEFT),get3DJointY(SHOULDER_LEFT),-get3DJointZ(SHOULDER_LEFT));
+	//					gl.glVertex3f(-get3DJointX(ELBOW_LEFT),get3DJointY(ELBOW_LEFT),-get3DJointZ(ELBOW_LEFT));
+	//				}
+	//				if(isJointTrackedOrInferred(ELBOW_LEFT)&&isJointTrackedOrInferred(WRIST_LEFT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(ELBOW_LEFT),get3DJointY(ELBOW_LEFT),-get3DJointZ(ELBOW_LEFT));
+	//					gl.glVertex3f(-get3DJointX(WRIST_LEFT),get3DJointY(WRIST_LEFT),-get3DJointZ(WRIST_LEFT));
+	//				}
+	//				if(isJointTrackedOrInferred(WRIST_LEFT)&&isJointTrackedOrInferred(HAND_LEFT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(WRIST_LEFT),get3DJointY(WRIST_LEFT),-get3DJointZ(WRIST_LEFT));
+	//					gl.glVertex3f(-get3DJointX(HAND_LEFT),get3DJointY(HAND_LEFT),-get3DJointZ(HAND_LEFT));
+	//				}
+	//				if(isJointTrackedOrInferred(HAND_TIP_LEFT)&&isJointTrackedOrInferred(HAND_LEFT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(HAND_TIP_LEFT),get3DJointY(HAND_TIP_LEFT),-get3DJointZ(HAND_TIP_LEFT));
+	//					gl.glVertex3f(-get3DJointX(HAND_LEFT),get3DJointY(HAND_LEFT),-get3DJointZ(HAND_LEFT));
+	//				}
+	//				if(isJointTrackedOrInferred(THUMB_LEFT)&&isJointTrackedOrInferred(HAND_LEFT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(THUMB_LEFT),get3DJointY(THUMB_LEFT),-get3DJointZ(THUMB_LEFT));
+	//					gl.glVertex3f(-get3DJointX(HAND_LEFT),get3DJointY(HAND_LEFT),-get3DJointZ(HAND_LEFT));
+	//				}
+	//
+	//				gl.glEnd();
+	//
+	//				//3 RIGHT ARM: SHOULDER_CENTER, SHOULDER_RIGHT, ELBOW_RIGHT, WRIST_RIGHT, HAND_RIGHT
+	//				gl.glBegin(GL2.GL_LINES);
+	//
+	//				if(isJointTrackedOrInferred(NECK)&&isJointTrackedOrInferred(SHOULDER_RIGHT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(NECK),get3DJointY(NECK),-get3DJointZ(NECK));
+	//					gl.glVertex3f(-get3DJointX(SHOULDER_RIGHT),get3DJointY(SHOULDER_RIGHT),-get3DJointZ(SHOULDER_RIGHT));
+	//				}
+	//				if(isJointTrackedOrInferred(SHOULDER_RIGHT)&&isJointTrackedOrInferred(ELBOW_RIGHT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(SHOULDER_RIGHT),get3DJointY(SHOULDER_RIGHT),-get3DJointZ(SHOULDER_RIGHT));
+	//					gl.glVertex3f(-get3DJointX(ELBOW_RIGHT),get3DJointY(ELBOW_RIGHT),-get3DJointZ(ELBOW_RIGHT));
+	//				}
+	//				if(isJointTrackedOrInferred(ELBOW_RIGHT)&&isJointTrackedOrInferred(WRIST_RIGHT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(ELBOW_RIGHT),get3DJointY(ELBOW_RIGHT),-get3DJointZ(ELBOW_RIGHT));
+	//					gl.glVertex3f(-get3DJointX(WRIST_RIGHT),get3DJointY(WRIST_RIGHT),-get3DJointZ(WRIST_RIGHT));
+	//				}
+	//				if(isJointTrackedOrInferred(WRIST_RIGHT)&&isJointTrackedOrInferred(HAND_RIGHT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(WRIST_RIGHT),get3DJointY(WRIST_RIGHT),-get3DJointZ(WRIST_RIGHT));
+	//					gl.glVertex3f(-get3DJointX(HAND_RIGHT),get3DJointY(HAND_RIGHT),-get3DJointZ(HAND_RIGHT));
+	//				}
+	//				if(isJointTrackedOrInferred(HAND_TIP_RIGHT)&&isJointTrackedOrInferred(HAND_RIGHT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(HAND_TIP_RIGHT),get3DJointY(HAND_TIP_RIGHT),-get3DJointZ(HAND_TIP_RIGHT));
+	//					gl.glVertex3f(-get3DJointX(HAND_RIGHT),get3DJointY(HAND_RIGHT),-get3DJointZ(HAND_RIGHT));
+	//				}
+	//				if(isJointTrackedOrInferred(THUMB_RIGHT)&&isJointTrackedOrInferred(HAND_RIGHT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(THUMB_RIGHT),get3DJointY(THUMB_RIGHT),-get3DJointZ(THUMB_RIGHT));
+	//					gl.glVertex3f(-get3DJointX(HAND_RIGHT),get3DJointY(HAND_RIGHT),-get3DJointZ(HAND_RIGHT));
+	//				}
+	//
+	//				gl.glEnd();
+	//
+	//				//4 LEFT LEG: HIP_CENTER, HIP_LEFT, KNEE_LEFT, ANKLE_LEFT, FOOT_LEFT
+	//				gl.glBegin(GL2.GL_LINES);
+	//				if(isJointTrackedOrInferred(SPINE_BASE)&&isJointTrackedOrInferred(HIP_LEFT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(SPINE_BASE),get3DJointY(SPINE_BASE),-get3DJointZ(SPINE_BASE));
+	//					gl.glVertex3f(-get3DJointX(HIP_LEFT),get3DJointY(HIP_LEFT),-get3DJointZ(HIP_LEFT));
+	//				}
+	//				if(isJointTrackedOrInferred(HIP_LEFT)&&isJointTrackedOrInferred(KNEE_LEFT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(HIP_LEFT),get3DJointY(HIP_LEFT),-get3DJointZ(HIP_LEFT));
+	//					gl.glVertex3f(-get3DJointX(KNEE_LEFT),get3DJointY(KNEE_LEFT),-get3DJointZ(KNEE_LEFT));
+	//				}
+	//				if(isJointTrackedOrInferred(KNEE_LEFT)&&isJointTrackedOrInferred(ANKLE_LEFT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(KNEE_LEFT),get3DJointY(KNEE_LEFT),-get3DJointZ(KNEE_LEFT));
+	//					gl.glVertex3f(-get3DJointX(ANKLE_LEFT),get3DJointY(ANKLE_LEFT),-get3DJointZ(ANKLE_LEFT));
+	//				}
+	//				if(isJointTrackedOrInferred(ANKLE_LEFT)&&isJointTrackedOrInferred(FOOT_LEFT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(ANKLE_LEFT),get3DJointY(ANKLE_LEFT),-get3DJointZ(ANKLE_LEFT));
+	//					gl.glVertex3f(-get3DJointX(FOOT_LEFT),get3DJointY(FOOT_LEFT),-get3DJointZ(FOOT_LEFT));
+	//				}
+	//				gl.glEnd();
+	//
+	//				//5 RIGHT LEG: HIP_CENTER, HIP_RIGHT, KNEE_RIGHT, ANKLE_RIGHT, FOOT_RIGHT
+	//				gl.glBegin(GL2.GL_LINES);
+	//				if(isJointTrackedOrInferred(SPINE_BASE)&&isJointTrackedOrInferred(HIP_RIGHT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(SPINE_BASE),get3DJointY(SPINE_BASE),-get3DJointZ(SPINE_BASE));
+	//					gl.glVertex3f(-get3DJointX(HIP_RIGHT),get3DJointY(HIP_RIGHT),-get3DJointZ(HIP_RIGHT));
+	//				}
+	//				if(isJointTrackedOrInferred(HIP_RIGHT)&&isJointTrackedOrInferred(KNEE_RIGHT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(HIP_RIGHT),get3DJointY(HIP_RIGHT),-get3DJointZ(HIP_RIGHT));
+	//					gl.glVertex3f(-get3DJointX(KNEE_RIGHT),get3DJointY(KNEE_RIGHT),-get3DJointZ(KNEE_RIGHT));
+	//				}
+	//				if(isJointTrackedOrInferred(KNEE_RIGHT)&&isJointTrackedOrInferred(ANKLE_RIGHT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(KNEE_RIGHT),get3DJointY(KNEE_RIGHT),-get3DJointZ(KNEE_RIGHT));
+	//					gl.glVertex3f(-get3DJointX(ANKLE_RIGHT),get3DJointY(ANKLE_RIGHT),-get3DJointZ(ANKLE_RIGHT));
+	//				}
+	//				if(isJointTrackedOrInferred(ANKLE_RIGHT)&&isJointTrackedOrInferred(FOOT_RIGHT))
+	//				{
+	//					gl.glVertex3f(-get3DJointX(ANKLE_RIGHT),get3DJointY(ANKLE_RIGHT),-get3DJointZ(ANKLE_RIGHT));
+	//					gl.glVertex3f(-get3DJointX(FOOT_RIGHT),get3DJointY(FOOT_RIGHT),-get3DJointZ(FOOT_RIGHT));
+	//				}
+	//				gl.glEnd();
+	//
+	//			}
+	//
+	//	}
 	
 	public static Skeleton defaultStance()
 	{

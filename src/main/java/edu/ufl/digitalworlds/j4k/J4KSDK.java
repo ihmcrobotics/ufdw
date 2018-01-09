@@ -665,11 +665,11 @@ public abstract class J4KSDK {
 	public void onLongExposureInfraredFrameEvent(short[] data){}
 	
 	
-	public void showViewerDialog() {
-		 new J4KSDKDialog(this,true);
-	}
-	
-	public void showViewerDialog(boolean modal) {
-		 new J4KSDKDialog(this,modal);
-	}
+//	public void showViewerDialog() {
+//		 new J4KSDKDialog(this,true);
+//	}
+//
+//	public void showViewerDialog(boolean modal) {
+//		 new J4KSDKDialog(this,modal);
+//	}
 }

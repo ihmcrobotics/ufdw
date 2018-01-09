@@ -1,18 +1,11 @@
 package edu.ufl.digitalworlds.j4k;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import edu.ufl.digitalworlds.math.Geom;
+
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
-
-import javax.media.opengl.GL2;
-
-import edu.ufl.digitalworlds.math.Geom;
 
 /*
  * Copyright 2011-2014, Digital Worlds Institute, University of 
@@ -527,412 +520,412 @@ public class DepthMap
 		}
 	}
 	
-	public void drawNormals(GL2 gl)
-	{
-		drawNormals(gl,0);
-	}
+//	public void drawNormals(GL2 gl)
+//	{
+//		drawNormals(gl,0);
+//	}
+//
+//	public void drawNormals(GL2 gl,int skip)
+//	{
+//		skip+=1;
+//		int idx;
+//		boolean draw_flag=true;
+//		boolean is_region=true;
+//		//if(realX==null || realY==null) computeXY();
+//
+//		if(center==null) center=new float[3];
+//		int center_counter=0;
+//
+//		gl.glPushMatrix();
+//		gl.glMultMatrixd(transformation, 0);
+//		int idx2;
+//		gl.glBegin(GL2.GL_QUADS);
+//		final int max_i=Dwidth-skip-(skip>1?0:1);
+//		final int max_j=Dheight-skip-(skip>1?0:1);
+//	    for(int i=1;i<max_i;i+=skip)
+//	    {
+//	    	for(int j=1;j<max_j;j+=skip)
+//	    	{
+//	    		idx=j*Dwidth+i;
+//	    		//CHECK IF A VALID DEPTH WAS ESTIMATED IN THIS PIXEL
+//	    		if(realZ[idx]<FLT_EPSILON || realZ[idx+skip]<FLT_EPSILON || realZ[idx+Dwidth*skip]<FLT_EPSILON || realZ[idx+Dwidth*skip+skip]<FLT_EPSILON)
+//	    			draw_flag=false;
+//	    		else draw_flag=true;
+//
+//
+//	    		//CHECK IF THE REGION IS DEPICTED IN THIS PIXEL
+//	    		if(draw_flag && mask!=null)
+//	    		{
+//	    			if (mask[idx]==false || mask[idx+skip]==false || mask[idx+Dwidth*skip]==false || mask[idx+Dwidth*skip+skip]==false)
+//	    				is_region=false;
+//	    			else is_region=true;
+//	    		}
+//
+//	    		//DO NOT DRAW QUADS ON THE BORDERS BETWEEN OBJECTS
+//	    		if(draw_flag)
+//	    		{
+//	    			if(mask!=null)
+//	    				draw_flag=is_region;
+//
+//	    			if(Math.abs(realZ[idx]-realZ[idx+skip])>largest_z_diff || Math.abs(realZ[idx+Dwidth*skip]-realZ[idx+Dwidth*skip+skip])>largest_z_diff || Math.abs(realZ[idx]-realZ[idx+Dwidth*skip])>largest_z_diff || Math.abs(realZ[idx+skip]-realZ[idx+Dwidth*skip+skip])>largest_z_diff) draw_flag=false;
+//	    		}
+//
+//
+//	    		if(draw_flag)
+//	    		{
+//
+//	    			if(recompute_center)
+//    				{
+//    					center[0]=(center[0]*center_counter+realX[idx])/(center_counter+1);
+//    					center[1]=(center[1]*center_counter+realY[idx])/(center_counter+1);
+//    					center[2]=(center[2]*center_counter+realZ[idx])/(center_counter+1);
+//    					center_counter+=1;
+//    				}
+//	    			else
+//	    			{
+//	        			idx2=idx;
+//	    				gl.glNormal3f((realZ[idx2+Dwidth*skip]-realZ[idx2-Dwidth*skip])/1.0f,(realZ[idx2+skip]-realZ[idx2-skip])/1.0f,0.005f);
+//	        			gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
+//	    				idx2=idx+skip;
+//	    				gl.glNormal3f((realZ[idx2+Dwidth*skip]-realZ[idx2-Dwidth*skip])/1.0f,(realZ[idx2+skip]-realZ[idx2-skip])/1.0f,0.005f);
+//		    			gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
+//		    			idx2=idx+Dwidth*skip+skip;
+//	    				gl.glNormal3f((realZ[idx2+Dwidth*skip]-realZ[idx2-Dwidth*skip])/1.0f,(realZ[idx2+skip]-realZ[idx2-skip])/1.0f,0.005f);
+//		    			gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
+//		    			idx2=idx+Dwidth*skip;
+//	    				gl.glNormal3f((realZ[idx2+Dwidth*skip]-realZ[idx2-Dwidth*skip])/1.0f,(realZ[idx2+skip]-realZ[idx2-skip])/1.0f,0.005f);
+//		    			gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
+//	    			}
+//	    		}
+//	    	}
+//	    }
+//	    gl.glEnd();
+//	    gl.glPopMatrix();
+//	    recompute_center=false;
+//	}
 	
-	public void drawNormals(GL2 gl,int skip)
-	{
-		skip+=1;
-		int idx;
-		boolean draw_flag=true;
-		boolean is_region=true;
-		//if(realX==null || realY==null) computeXY();
-		
-		if(center==null) center=new float[3];
-		int center_counter=0;
-		
-		gl.glPushMatrix();
-		gl.glMultMatrixd(transformation, 0);
-		int idx2;
-		gl.glBegin(GL2.GL_QUADS);
-		final int max_i=Dwidth-skip-(skip>1?0:1);
-		final int max_j=Dheight-skip-(skip>1?0:1);
-	    for(int i=1;i<max_i;i+=skip)
-	    {
-	    	for(int j=1;j<max_j;j+=skip)
-	    	{
-	    		idx=j*Dwidth+i;
-	    		//CHECK IF A VALID DEPTH WAS ESTIMATED IN THIS PIXEL
-	    		if(realZ[idx]<FLT_EPSILON || realZ[idx+skip]<FLT_EPSILON || realZ[idx+Dwidth*skip]<FLT_EPSILON || realZ[idx+Dwidth*skip+skip]<FLT_EPSILON)
-	    			draw_flag=false;
-	    		else draw_flag=true;
-	    		
-	    		
-	    		//CHECK IF THE REGION IS DEPICTED IN THIS PIXEL
-	    		if(draw_flag && mask!=null)
-	    		{
-	    			if (mask[idx]==false || mask[idx+skip]==false || mask[idx+Dwidth*skip]==false || mask[idx+Dwidth*skip+skip]==false) 
-	    				is_region=false;
-	    			else is_region=true;
-	    		}
-	    		
-	    		//DO NOT DRAW QUADS ON THE BORDERS BETWEEN OBJECTS
-	    		if(draw_flag)
-	    		{
-	    			if(mask!=null)
-	    				draw_flag=is_region;
-	    			
-	    			if(Math.abs(realZ[idx]-realZ[idx+skip])>largest_z_diff || Math.abs(realZ[idx+Dwidth*skip]-realZ[idx+Dwidth*skip+skip])>largest_z_diff || Math.abs(realZ[idx]-realZ[idx+Dwidth*skip])>largest_z_diff || Math.abs(realZ[idx+skip]-realZ[idx+Dwidth*skip+skip])>largest_z_diff) draw_flag=false;
-	    		}
-	    		
-	    		
-	    		if(draw_flag)
-	    		{
+//	public void drawMesh(GL2 gl)
+//	{
+//		drawMesh(gl,3);
+//	}
+//
+//	public void drawMesh(GL2 gl,int skip)
+//	{
+//		skip+=1;
+//		int skipX;
+//		int skipY;
+//		int idx;
+//		boolean draw_flag=true;
+//		boolean is_region=true;
+//	//	if(realX==null || realY==null) computeXY();
+//
+//		if(center==null) center=new float[3];
+//		int center_counter=0;
+//
+//		gl.glPushMatrix();
+//		gl.glMultMatrixd(transformation, 0);
+//		int idx2;
+//		gl.glBegin(GL2.GL_LINES);
+//		//HORIZONTAL LINES
+//		skipY=skip;
+//		skipX=1;
+//		for(int j=0;j<Dheight-skipY;j+=skipY)
+//	    {
+//	    	for(int i=0;i<Dwidth-skipX;i+=skipX)
+//	    	{
+//	    		idx=j*Dwidth+i;
+//	    		//CHECK IF A VALID DEPTH WAS ESTIMATED IN THIS PIXEL
+//	    		if(realZ[idx]<FLT_EPSILON || realZ[idx+skipX]<FLT_EPSILON )
+//	    			draw_flag=false;
+//	    		else draw_flag=true;
+//
+//
+//	    		//CHECK IF THE REGION IS DEPICTED IN THIS PIXEL
+//	    		if(draw_flag && mask!=null)
+//	    		{
+//	    			if (mask[idx]==false || mask[idx+skipX]==false )
+//	    				is_region=false;
+//	    			else is_region=true;
+//	    		}
+//
+//	    		//DO NOT DRAW QUADS ON THE BORDERS BETWEEN OBJECTS
+//	    		if(draw_flag)
+//	    		{
+//	    			if(mask!=null)
+//	    				draw_flag=is_region;
+//
+//	    			if(Math.abs(realZ[idx]-realZ[idx+skipX])>largest_z_diff) draw_flag=false;
+//	    		}
+//
+//
+//	    		if(draw_flag)
+//	    		{
+//
+//	    			if(recompute_center)
+//    				{
+//    					center[0]=(center[0]*center_counter+realX[idx])/(center_counter+1);
+//    					center[1]=(center[1]*center_counter+realY[idx])/(center_counter+1);
+//    					center[2]=(center[2]*center_counter+realZ[idx])/(center_counter+1);
+//    					center_counter+=1;
+//    				}
+//	    			else
+//	    			{
+//	    				gl.glNormal3f((realZ[idx+Dwidth*skipX]-realZ[idx])/1.0f,(realZ[idx+skipX]-realZ[idx])/1.0f,0.005f);
+//	        			idx2=idx;
+//	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
+//	    				idx2=idx+skipX;
+//		    			gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
+//	    			}
+//	    		}
+//	    	}
+//	    }
+//		//VERTICAL LINES
+//		skipX=skip;
+//		skipY=1;
+//		for(int i=0;i<Dwidth-skipX;i+=skipX)
+//		{
+//			for(int j=0;j<Dheight-skipY;j+=skipY)
+//			{
+//			    idx=j*Dwidth+i;
+//	    		//CHECK IF A VALID DEPTH WAS ESTIMATED IN THIS PIXEL
+//	    		if(realZ[idx]<FLT_EPSILON || realZ[idx+Dwidth*skipY]<FLT_EPSILON )
+//	    			draw_flag=false;
+//	    		else draw_flag=true;
+//
+//
+//	    		//CHECK IF THE REGION IS DEPICTED IN THIS PIXEL
+//	    		if(draw_flag && mask!=null)
+//	    		{
+//	    			if (mask[idx]==false || mask[idx+Dwidth*skipY]==false )
+//	    				is_region=false;
+//	    			else is_region=true;
+//	    		}
+//
+//	    		//DO NOT DRAW QUADS ON THE BORDERS BETWEEN OBJECTS
+//	    		if(draw_flag)
+//	    		{
+//	    			if(mask!=null)
+//	    				draw_flag=is_region;
+//
+//	    			if(Math.abs(realZ[idx]-realZ[idx+Dwidth*skipY])>largest_z_diff ) draw_flag=false;
+//	    		}
+//
+//
+//	    		if(draw_flag)
+//	    		{
+//
+//	    			if(recompute_center)
+//    				{
+//    					center[0]=(center[0]*center_counter+realX[idx])/(center_counter+1);
+//    					center[1]=(center[1]*center_counter+realY[idx])/(center_counter+1);
+//    					center[2]=(center[2]*center_counter+realZ[idx])/(center_counter+1);
+//    					center_counter+=1;
+//    				}
+//	    			else
+//	    			{
+//	    				gl.glNormal3f((realZ[idx+Dwidth*skipY]-realZ[idx])/1.0f,(realZ[idx+skipY]-realZ[idx])/1.0f,0.005f);
+//	        			idx2=idx;
+//	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
+//	    				idx2=idx+Dwidth*skipY;
+//		    			gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
+//	    			}
+//	    		}
+//	    	}
+//	    }
+//
+//	    gl.glEnd();
+//	    gl.glPopMatrix();
+//	    recompute_center=false;
+//	}
+//
+//	public void drawTexture(GL2 gl)
+//	{
+//		drawTexture(gl,0);
+//	}
+//
+//	public void drawTexture(GL2 gl,int skip)
+//	{
+//		skip+=1;
+//		int idx;
+//		boolean draw_flag=true;
+//		boolean is_region=true;
+////		if(realX==null || realY==null) computeXY();
+//
+//		boolean ignoreUV=false;
+//		if(U==null ||V==null) ignoreUV=true;
+//
+//		if(center==null) center=new float[3];
+//		int center_counter=0;
+//
+//		gl.glPushMatrix();
+//		gl.glMultMatrixd(transformation, 0);
+//		int idx2;
+//		gl.glBegin(GL2.GL_QUADS);
+//	    for(int i=0;i<Dwidth-skip;i+=skip)
+//	    {
+//	    	for(int j=0;j<Dheight-skip;j+=skip)
+//	    	{
+//	    		idx=j*Dwidth+i;
+//	    		//CHECK IF A VALID DEPTH WAS ESTIMATED IN THIS PIXEL
+//	    		if(realZ[idx]<FLT_EPSILON || realZ[idx+skip]<FLT_EPSILON || realZ[idx+Dwidth*skip]<FLT_EPSILON || realZ[idx+Dwidth*skip+skip]<FLT_EPSILON)
+//	    			draw_flag=false;
+//	    		else draw_flag=true;
+//
+//
+//	    		//CHECK IF THE REGION IS DEPICTED IN THIS PIXEL
+//	    		if(draw_flag && mask!=null)
+//	    		{
+//	    			if (mask[idx]==false || mask[idx+skip]==false || mask[idx+Dwidth*skip]==false || mask[idx+Dwidth*skip+skip]==false)
+//	    				is_region=false;
+//	    			else is_region=true;
+//	    		}
+//
+//	    		//DO NOT DRAW QUADS ON THE BORDERS BETWEEN OBJECTS
+//	    		if(draw_flag)
+//	    		{
+//	    			if(mask!=null)
+//	    				draw_flag=is_region;
+//
+//	    			if(Math.abs(realZ[idx]-realZ[idx+skip])>largest_z_diff || Math.abs(realZ[idx+Dwidth*skip]-realZ[idx+Dwidth*skip+skip])>largest_z_diff || Math.abs(realZ[idx]-realZ[idx+Dwidth*skip])>largest_z_diff || Math.abs(realZ[idx+skip]-realZ[idx+Dwidth*skip+skip])>largest_z_diff) draw_flag=false;
+//	    		}
+//
+//
+//	    		if(draw_flag)
+//	    		{
+//
+//	    			if(recompute_center)
+//    				{
+//    					center[0]=(center[0]*center_counter+realX[idx])/(center_counter+1);
+//    					center[1]=(center[1]*center_counter+realY[idx])/(center_counter+1);
+//    					center[2]=(center[2]*center_counter+realZ[idx])/(center_counter+1);
+//    					center_counter+=1;
+//    				}
+//	    			else
+//	    			{
+//	    				//gl.glNormal3f((realZ[idx+Dwidth*skip]-realZ[idx])/1.0f,(realZ[idx+skip]-realZ[idx])/1.0f,0.005f);
+//	    				idx2=idx;
+//	    				if(!ignoreUV) gl.glTexCoord2f(U[idx2], V[idx2]);
+//	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
+//	    				idx2=idx+skip;
+//	    				if(!ignoreUV) gl.glTexCoord2f(U[idx2], V[idx2]);
+//	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
+//	    				idx2=idx+Dwidth*skip+skip;
+//	    				if(!ignoreUV) gl.glTexCoord2f(U[idx2], V[idx2]);
+//	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
+//	    				idx2=idx+Dwidth*skip;
+//	    				if(!ignoreUV) gl.glTexCoord2f(U[idx2], V[idx2]);
+//	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
+//	    			}
+//	    		}
+//	    	}
+//	    }
+//	    gl.glEnd();
+//	    gl.glPopMatrix();
+//	    recompute_center=false;
+//	}
+//
+//	public void draw(GL2 gl)
+//	{
+//		if(U==null ||V==null) drawNormals(gl,0);
+//		else drawTexture(gl,0);
+//	}
+//
+//	public void draw(GL2 gl,int skip)
+//	{
+//		if(U==null ||V==null) drawNormals(gl,skip);
+//		else drawTexture(gl,skip);
+//	}
 	
-	    			if(recompute_center)
-    				{
-    					center[0]=(center[0]*center_counter+realX[idx])/(center_counter+1);
-    					center[1]=(center[1]*center_counter+realY[idx])/(center_counter+1);
-    					center[2]=(center[2]*center_counter+realZ[idx])/(center_counter+1);
-    					center_counter+=1;
-    				}
-	    			else
-	    			{
-	        			idx2=idx;
-	    				gl.glNormal3f((realZ[idx2+Dwidth*skip]-realZ[idx2-Dwidth*skip])/1.0f,(realZ[idx2+skip]-realZ[idx2-skip])/1.0f,0.005f);
-	        			gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
-	    				idx2=idx+skip;
-	    				gl.glNormal3f((realZ[idx2+Dwidth*skip]-realZ[idx2-Dwidth*skip])/1.0f,(realZ[idx2+skip]-realZ[idx2-skip])/1.0f,0.005f);
-		    			gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
-		    			idx2=idx+Dwidth*skip+skip;
-	    				gl.glNormal3f((realZ[idx2+Dwidth*skip]-realZ[idx2-Dwidth*skip])/1.0f,(realZ[idx2+skip]-realZ[idx2-skip])/1.0f,0.005f);
-		    			gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
-		    			idx2=idx+Dwidth*skip;
-	    				gl.glNormal3f((realZ[idx2+Dwidth*skip]-realZ[idx2-Dwidth*skip])/1.0f,(realZ[idx2+skip]-realZ[idx2-skip])/1.0f,0.005f);
-		    			gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
-	    			}
-	    		}
-	    	}
-	    }
-	    gl.glEnd();
-	    gl.glPopMatrix();
-	    recompute_center=false;
-	}
-	
-	public void drawMesh(GL2 gl)
-	{
-		drawMesh(gl,3);
-	}
-	
-	public void drawMesh(GL2 gl,int skip)
-	{
-		skip+=1;
-		int skipX;
-		int skipY;
-		int idx;
-		boolean draw_flag=true;
-		boolean is_region=true;
-	//	if(realX==null || realY==null) computeXY();
-		
-		if(center==null) center=new float[3];
-		int center_counter=0;
-		
-		gl.glPushMatrix();
-		gl.glMultMatrixd(transformation, 0);
-		int idx2;
-		gl.glBegin(GL2.GL_LINES);
-		//HORIZONTAL LINES
-		skipY=skip;
-		skipX=1;
-		for(int j=0;j<Dheight-skipY;j+=skipY)
-	    {
-	    	for(int i=0;i<Dwidth-skipX;i+=skipX)
-	    	{
-	    		idx=j*Dwidth+i;
-	    		//CHECK IF A VALID DEPTH WAS ESTIMATED IN THIS PIXEL
-	    		if(realZ[idx]<FLT_EPSILON || realZ[idx+skipX]<FLT_EPSILON )
-	    			draw_flag=false;
-	    		else draw_flag=true;
-	    		
-	    		
-	    		//CHECK IF THE REGION IS DEPICTED IN THIS PIXEL
-	    		if(draw_flag && mask!=null)
-	    		{
-	    			if (mask[idx]==false || mask[idx+skipX]==false ) 
-	    				is_region=false;
-	    			else is_region=true;
-	    		}
-	    		
-	    		//DO NOT DRAW QUADS ON THE BORDERS BETWEEN OBJECTS
-	    		if(draw_flag)
-	    		{
-	    			if(mask!=null)
-	    				draw_flag=is_region;
-	    			
-	    			if(Math.abs(realZ[idx]-realZ[idx+skipX])>largest_z_diff) draw_flag=false;
-	    		}
-	    		
-	    		
-	    		if(draw_flag)
-	    		{
-	
-	    			if(recompute_center)
-    				{
-    					center[0]=(center[0]*center_counter+realX[idx])/(center_counter+1);
-    					center[1]=(center[1]*center_counter+realY[idx])/(center_counter+1);
-    					center[2]=(center[2]*center_counter+realZ[idx])/(center_counter+1);
-    					center_counter+=1;
-    				}
-	    			else
-	    			{
-	    				gl.glNormal3f((realZ[idx+Dwidth*skipX]-realZ[idx])/1.0f,(realZ[idx+skipX]-realZ[idx])/1.0f,0.005f);
-	        			idx2=idx;
-	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
-	    				idx2=idx+skipX;
-		    			gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
-	    			}
-	    		}
-	    	}
-	    }
-		//VERTICAL LINES
-		skipX=skip;
-		skipY=1;
-		for(int i=0;i<Dwidth-skipX;i+=skipX)
-		{
-			for(int j=0;j<Dheight-skipY;j+=skipY)
-			{
-			    idx=j*Dwidth+i;
-	    		//CHECK IF A VALID DEPTH WAS ESTIMATED IN THIS PIXEL
-	    		if(realZ[idx]<FLT_EPSILON || realZ[idx+Dwidth*skipY]<FLT_EPSILON )
-	    			draw_flag=false;
-	    		else draw_flag=true;
-	    		
-	    		
-	    		//CHECK IF THE REGION IS DEPICTED IN THIS PIXEL
-	    		if(draw_flag && mask!=null)
-	    		{
-	    			if (mask[idx]==false || mask[idx+Dwidth*skipY]==false ) 
-	    				is_region=false;
-	    			else is_region=true;
-	    		}
-	    		
-	    		//DO NOT DRAW QUADS ON THE BORDERS BETWEEN OBJECTS
-	    		if(draw_flag)
-	    		{
-	    			if(mask!=null)
-	    				draw_flag=is_region;
-	    			
-	    			if(Math.abs(realZ[idx]-realZ[idx+Dwidth*skipY])>largest_z_diff ) draw_flag=false;
-	    		}
-	    		
-	    		
-	    		if(draw_flag)
-	    		{
-	
-	    			if(recompute_center)
-    				{
-    					center[0]=(center[0]*center_counter+realX[idx])/(center_counter+1);
-    					center[1]=(center[1]*center_counter+realY[idx])/(center_counter+1);
-    					center[2]=(center[2]*center_counter+realZ[idx])/(center_counter+1);
-    					center_counter+=1;
-    				}
-	    			else
-	    			{
-	    				gl.glNormal3f((realZ[idx+Dwidth*skipY]-realZ[idx])/1.0f,(realZ[idx+skipY]-realZ[idx])/1.0f,0.005f);
-	        			idx2=idx;
-	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
-	    				idx2=idx+Dwidth*skipY;
-		    			gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
-	    			}
-	    		}
-	    	}
-	    }
-					
-	    gl.glEnd();
-	    gl.glPopMatrix();
-	    recompute_center=false;
-	}
-	
-	public void drawTexture(GL2 gl)
-	{
-		drawTexture(gl,0);
-	}
-	
-	public void drawTexture(GL2 gl,int skip)
-	{
-		skip+=1;
-		int idx;
-		boolean draw_flag=true;
-		boolean is_region=true;
-//		if(realX==null || realY==null) computeXY();
-		
-		boolean ignoreUV=false;
-		if(U==null ||V==null) ignoreUV=true;
-		
-		if(center==null) center=new float[3];
-		int center_counter=0;
-		
-		gl.glPushMatrix();
-		gl.glMultMatrixd(transformation, 0);
-		int idx2;
-		gl.glBegin(GL2.GL_QUADS);
-	    for(int i=0;i<Dwidth-skip;i+=skip)
-	    {
-	    	for(int j=0;j<Dheight-skip;j+=skip)
-	    	{
-	    		idx=j*Dwidth+i;
-	    		//CHECK IF A VALID DEPTH WAS ESTIMATED IN THIS PIXEL
-	    		if(realZ[idx]<FLT_EPSILON || realZ[idx+skip]<FLT_EPSILON || realZ[idx+Dwidth*skip]<FLT_EPSILON || realZ[idx+Dwidth*skip+skip]<FLT_EPSILON)
-	    			draw_flag=false;
-	    		else draw_flag=true;
-	    		
-	    		
-	    		//CHECK IF THE REGION IS DEPICTED IN THIS PIXEL
-	    		if(draw_flag && mask!=null)
-	    		{
-	    			if (mask[idx]==false || mask[idx+skip]==false || mask[idx+Dwidth*skip]==false || mask[idx+Dwidth*skip+skip]==false) 
-	    				is_region=false;
-	    			else is_region=true;
-	    		}
-	    		
-	    		//DO NOT DRAW QUADS ON THE BORDERS BETWEEN OBJECTS
-	    		if(draw_flag)
-	    		{
-	    			if(mask!=null)
-	    				draw_flag=is_region;
-	    			
-	    			if(Math.abs(realZ[idx]-realZ[idx+skip])>largest_z_diff || Math.abs(realZ[idx+Dwidth*skip]-realZ[idx+Dwidth*skip+skip])>largest_z_diff || Math.abs(realZ[idx]-realZ[idx+Dwidth*skip])>largest_z_diff || Math.abs(realZ[idx+skip]-realZ[idx+Dwidth*skip+skip])>largest_z_diff) draw_flag=false;
-	    		}
-	    		
-	    		
-	    		if(draw_flag)
-	    		{
-	
-	    			if(recompute_center)
-    				{
-    					center[0]=(center[0]*center_counter+realX[idx])/(center_counter+1);
-    					center[1]=(center[1]*center_counter+realY[idx])/(center_counter+1);
-    					center[2]=(center[2]*center_counter+realZ[idx])/(center_counter+1);
-    					center_counter+=1;
-    				}
-	    			else
-	    			{
-	    				//gl.glNormal3f((realZ[idx+Dwidth*skip]-realZ[idx])/1.0f,(realZ[idx+skip]-realZ[idx])/1.0f,0.005f);
-	    				idx2=idx;
-	    				if(!ignoreUV) gl.glTexCoord2f(U[idx2], V[idx2]);
-	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
-	    				idx2=idx+skip;
-	    				if(!ignoreUV) gl.glTexCoord2f(U[idx2], V[idx2]);
-	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
-	    				idx2=idx+Dwidth*skip+skip;
-	    				if(!ignoreUV) gl.glTexCoord2f(U[idx2], V[idx2]);
-	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);    		
-	    				idx2=idx+Dwidth*skip;
-	    				if(!ignoreUV) gl.glTexCoord2f(U[idx2], V[idx2]);
-	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
-	    			}
-	    		}
-	    	}
-	    }
-	    gl.glEnd();
-	    gl.glPopMatrix();
-	    recompute_center=false;
-	}
-	
-	public void draw(GL2 gl)
-	{
-		if(U==null ||V==null) drawNormals(gl,0);
-		else drawTexture(gl,0);
-	}
-	
-	public void draw(GL2 gl,int skip)
-	{
-		if(U==null ||V==null) drawNormals(gl,skip);
-		else drawTexture(gl,skip);
-	}
-	
-	public void drawTextureNormals(GL2 gl)
-	{
-		drawTextureNormals(gl,0);
-	}
-	
-	public void drawTextureNormals(GL2 gl,int skip)
-	{
-		skip+=1;
-		int idx;
-		boolean draw_flag=true;
-		boolean is_region=true;
-	//	if(realX==null || realY==null) computeXY();
-		
-		boolean ignoreUV=false;
-		if(U==null ||V==null) ignoreUV=true;
-		
-		if(center==null) center=new float[3];
-		int center_counter=0;
-		
-		gl.glPushMatrix();
-		gl.glMultMatrixd(transformation, 0);
-		int idx2;
-		gl.glBegin(GL2.GL_QUADS);
-		final int max_i=Dwidth-skip-(skip>1?0:1);
-		final int max_j=Dheight-skip-(skip>1?0:1);
-	    for(int i=1;i<max_i;i+=skip)
-	    {
-	    	for(int j=1;j<max_j;j+=skip)
-	    	{
-	    		idx=j*Dwidth+i;
-	    		//CHECK IF A VALID DEPTH WAS ESTIMATED IN THIS PIXEL
-	    		if(realZ[idx]<FLT_EPSILON || realZ[idx+skip]<FLT_EPSILON || realZ[idx+Dwidth*skip]<FLT_EPSILON || realZ[idx+Dwidth*skip+skip]<FLT_EPSILON)
-	    			draw_flag=false;
-	    		else draw_flag=true;
-	    		
-	    		
-	    		//CHECK IF THE REGION IS DEPICTED IN THIS PIXEL
-	    		if(draw_flag && mask!=null)
-	    		{
-	    			if (mask[idx]==false || mask[idx+skip]==false || mask[idx+Dwidth*skip]==false || mask[idx+Dwidth*skip+skip]==false) 
-	    				is_region=false;
-	    			else is_region=true;
-	    		}
-	    		
-	    		//DO NOT DRAW QUADS ON THE BORDERS BETWEEN OBJECTS
-	    		if(draw_flag)
-	    		{
-	    			if(mask!=null)
-	    				draw_flag=is_region;
-	    			
-	    			if(Math.abs(realZ[idx]-realZ[idx+skip])>largest_z_diff || Math.abs(realZ[idx+Dwidth*skip]-realZ[idx+Dwidth*skip+skip])>largest_z_diff || Math.abs(realZ[idx]-realZ[idx+Dwidth*skip])>largest_z_diff || Math.abs(realZ[idx+skip]-realZ[idx+Dwidth*skip+skip])>largest_z_diff) draw_flag=false;
-	    		}
-	    		
-	    		
-	    		if(draw_flag)
-	    		{
-	
-	    			if(recompute_center)
-    				{
-    					center[0]=(center[0]*center_counter+realX[idx])/(center_counter+1);
-    					center[1]=(center[1]*center_counter+realY[idx])/(center_counter+1);
-    					center[2]=(center[2]*center_counter+realZ[idx])/(center_counter+1);
-    					center_counter+=1;
-    				}
-	    			else
-	    			{
-	    				idx2=idx;
-	    				gl.glNormal3f((realZ[idx2+Dwidth*skip]-realZ[idx2-Dwidth*skip])/1.0f,(realZ[idx2+skip]-realZ[idx2-skip])/1.0f,0.005f);
-	    				if(!ignoreUV) gl.glTexCoord2f(U[idx2], V[idx2]);
-	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
-	    				idx2=idx+skip;
-	    				gl.glNormal3f((realZ[idx2+Dwidth*skip]-realZ[idx2-Dwidth*skip])/1.0f,(realZ[idx2+skip]-realZ[idx2-skip])/1.0f,0.005f);
-	    				if(!ignoreUV) gl.glTexCoord2f(U[idx2], V[idx2]);
-	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
-	    				idx2=idx+Dwidth*skip+skip;
-	    				gl.glNormal3f((realZ[idx2+Dwidth*skip]-realZ[idx2-Dwidth*skip])/1.0f,(realZ[idx2+skip]-realZ[idx2-skip])/1.0f,0.005f);
-	    				if(!ignoreUV) gl.glTexCoord2f(U[idx2], V[idx2]);
-	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);    		
-	    				idx2=idx+Dwidth*skip;
-	    				gl.glNormal3f((realZ[idx2+Dwidth*skip]-realZ[idx2-Dwidth*skip])/1.0f,(realZ[idx2+skip]-realZ[idx2-skip])/1.0f,0.005f);
-	    				if(!ignoreUV) gl.glTexCoord2f(U[idx2], V[idx2]);
-	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
-	    			}
-	    		}
-	    	}
-	    }
-	    gl.glEnd();
-	    gl.glPopMatrix();
-	    recompute_center=false;
-	}
+//	public void drawTextureNormals(GL2 gl)
+	//	{
+	//		drawTextureNormals(gl,0);
+	//	}
+	//
+	//	public void drawTextureNormals(GL2 gl,int skip)
+	//	{
+	//		skip+=1;
+	//		int idx;
+	//		boolean draw_flag=true;
+	//		boolean is_region=true;
+	//	//	if(realX==null || realY==null) computeXY();
+	//
+	//		boolean ignoreUV=false;
+	//		if(U==null ||V==null) ignoreUV=true;
+	//
+	//		if(center==null) center=new float[3];
+	//		int center_counter=0;
+	//
+	//		gl.glPushMatrix();
+	//		gl.glMultMatrixd(transformation, 0);
+	//		int idx2;
+	//		gl.glBegin(GL2.GL_QUADS);
+	//		final int max_i=Dwidth-skip-(skip>1?0:1);
+	//		final int max_j=Dheight-skip-(skip>1?0:1);
+	//	    for(int i=1;i<max_i;i+=skip)
+	//	    {
+	//	    	for(int j=1;j<max_j;j+=skip)
+	//	    	{
+	//	    		idx=j*Dwidth+i;
+	//	    		//CHECK IF A VALID DEPTH WAS ESTIMATED IN THIS PIXEL
+	//	    		if(realZ[idx]<FLT_EPSILON || realZ[idx+skip]<FLT_EPSILON || realZ[idx+Dwidth*skip]<FLT_EPSILON || realZ[idx+Dwidth*skip+skip]<FLT_EPSILON)
+	//	    			draw_flag=false;
+	//	    		else draw_flag=true;
+	//
+	//
+	//	    		//CHECK IF THE REGION IS DEPICTED IN THIS PIXEL
+	//	    		if(draw_flag && mask!=null)
+	//	    		{
+	//	    			if (mask[idx]==false || mask[idx+skip]==false || mask[idx+Dwidth*skip]==false || mask[idx+Dwidth*skip+skip]==false)
+	//	    				is_region=false;
+	//	    			else is_region=true;
+	//	    		}
+	//
+	//	    		//DO NOT DRAW QUADS ON THE BORDERS BETWEEN OBJECTS
+	//	    		if(draw_flag)
+	//	    		{
+	//	    			if(mask!=null)
+	//	    				draw_flag=is_region;
+	//
+	//	    			if(Math.abs(realZ[idx]-realZ[idx+skip])>largest_z_diff || Math.abs(realZ[idx+Dwidth*skip]-realZ[idx+Dwidth*skip+skip])>largest_z_diff || Math.abs(realZ[idx]-realZ[idx+Dwidth*skip])>largest_z_diff || Math.abs(realZ[idx+skip]-realZ[idx+Dwidth*skip+skip])>largest_z_diff) draw_flag=false;
+	//	    		}
+	//
+	//
+	//	    		if(draw_flag)
+	//	    		{
+	//
+	//	    			if(recompute_center)
+	//    				{
+	//    					center[0]=(center[0]*center_counter+realX[idx])/(center_counter+1);
+	//    					center[1]=(center[1]*center_counter+realY[idx])/(center_counter+1);
+	//    					center[2]=(center[2]*center_counter+realZ[idx])/(center_counter+1);
+	//    					center_counter+=1;
+	//    				}
+	//	    			else
+	//	    			{
+	//	    				idx2=idx;
+	//	    				gl.glNormal3f((realZ[idx2+Dwidth*skip]-realZ[idx2-Dwidth*skip])/1.0f,(realZ[idx2+skip]-realZ[idx2-skip])/1.0f,0.005f);
+	//	    				if(!ignoreUV) gl.glTexCoord2f(U[idx2], V[idx2]);
+	//	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
+	//	    				idx2=idx+skip;
+	//	    				gl.glNormal3f((realZ[idx2+Dwidth*skip]-realZ[idx2-Dwidth*skip])/1.0f,(realZ[idx2+skip]-realZ[idx2-skip])/1.0f,0.005f);
+	//	    				if(!ignoreUV) gl.glTexCoord2f(U[idx2], V[idx2]);
+	//	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
+	//	    				idx2=idx+Dwidth*skip+skip;
+	//	    				gl.glNormal3f((realZ[idx2+Dwidth*skip]-realZ[idx2-Dwidth*skip])/1.0f,(realZ[idx2+skip]-realZ[idx2-skip])/1.0f,0.005f);
+	//	    				if(!ignoreUV) gl.glTexCoord2f(U[idx2], V[idx2]);
+	//	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
+	//	    				idx2=idx+Dwidth*skip;
+	//	    				gl.glNormal3f((realZ[idx2+Dwidth*skip]-realZ[idx2-Dwidth*skip])/1.0f,(realZ[idx2+skip]-realZ[idx2-skip])/1.0f,0.005f);
+	//	    				if(!ignoreUV) gl.glTexCoord2f(U[idx2], V[idx2]);
+	//	    				gl.glVertex3f(realX[idx2], realY[idx2], -realZ[idx2]);
+	//	    			}
+	//	    		}
+	//	    	}
+	//	    }
+	//	    gl.glEnd();
+	//	    gl.glPopMatrix();
+	//	    recompute_center=false;
+	//	}
 
 	public void saveTransform(String filename)
 	{

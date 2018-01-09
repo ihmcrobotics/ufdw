@@ -1,7 +1,5 @@
 package edu.ufl.digitalworlds.j4k;
 
-import javax.media.opengl.GL2;
-
 import us.ihmc.tools.nativelibraries.NativeLibraryLoader;
 
 /*
@@ -467,95 +465,95 @@ abstract public class J4K1 {
 			return inFOVtest(d[0],d[1],d[2],dist);
 		}
 		
-		public static void drawFOVbox(GL2 gl)
-		{
-			//Near Rectangle:(90cm x 67cm)  Far Rectangle:(4.6m x 3.36m)
-
-			float w=(320f/2.0f)/285.63f;
-			int ymin=0;//max(0-allignY,0);
-			int xmin=0;//max(0-allignX,0);
-			int ymax=240;//min(240-allignY,240);
-			int xmax=320;//min(320-allignX,320);
-			float dnear=0.8f;
-			float dfar=4.0f;
-
-			gl.glDisable(GL2.GL_TEXTURE_2D);
-			gl.glColor3f(1,0,0);
-			gl.glBegin(GL2.GL_LINES);
-			gl.glVertex3d((xmin-160.0)/160*dnear*w,-(ymin-120.0)/160.0*dnear*w,-dnear);
-			gl.glVertex3d((xmax-160.0)/160*dnear*w,-(ymin-120.0)/160.0*dnear*w,-dnear);
-
-			gl.glVertex3d((xmax-160.0)/160*dnear*w,-(ymin-120.0)/160.0*dnear*w,-dnear);
-			gl.glVertex3d((xmax-160.0)/160*dnear*w,-(ymax-120.0)/160.0*dnear*w,-dnear);
-				
-
-			gl.glVertex3d((xmax-160.0)/160*dnear*w,-(ymax-120.0)/160.0*dnear*w,-dnear);
-			gl.glVertex3d((xmin-160.0)/160*dnear*w,-(ymax-120.0)/160.0*dnear*w,-dnear);
-
-			gl.glVertex3d((xmin-160.0)/160*dnear*w,-(ymax-120.0)/160.0*dnear*w,-dnear);
-			gl.glVertex3d((xmin-160.0)/160*dnear*w,-(ymin-120.0)/160.0*dnear*w,-dnear);
-			
-			gl.glVertex3d((xmin-160.0)/160*dfar*w,-(ymin-120.0)/160.0*dfar*w,-dfar);
-			gl.glVertex3d((xmax-160.0)/160*dfar*w,-(ymin-120.0)/160.0*dfar*w,-dfar);
-
-			gl.glVertex3d((xmax-160.0)/160*dfar*w,-(ymin-120.0)/160.0*dfar*w,-dfar);
-			gl.glVertex3d((xmax-160.0)/160*dfar*w,-(ymax-120.0)/160.0*dfar*w,-dfar);
-				
-			gl.glVertex3d((xmax-160.0)/160*dfar*w,-(ymax-120.0)/160.0*dfar*w,-dfar);
-			gl.glVertex3d((xmin-160.0)/160*dfar*w,-(ymax-120.0)/160.0*dfar*w,-dfar);
-
-			gl.glVertex3d((xmin-160.0)/160*dfar*w,-(ymax-120.0)/160.0*dfar*w,-dfar);
-			gl.glVertex3d((xmin-160.0)/160*dfar*w,-(ymin-120.0)/160.0*dfar*w,-dfar);
-
-				int i;
-				for(i=xmin;i<xmax;i+=30)
-				{
-					gl.glVertex3d((i-160.0)/160*dfar*w,-(ymin-120.0)/160.0*dfar*w,-dfar);
-					gl.glVertex3d((i-160.0)/160*dfar*w,-(ymax-120.0)/160.0*dfar*w,-dfar);
-				}
-				for(i=ymin;i<ymax;i+=30)
-				{
-					gl.glVertex3d((xmax-160.0)/160*dfar*w,-(i-120.0)/160.0*dfar*w,-dfar);
-					gl.glVertex3d((xmin-160.0)/160*dfar*w,-(i-120.0)/160.0*dfar*w,-dfar);
-				}
-				
-				gl.glVertex3d((xmin-160.0)/160*dnear*w,-(ymin-120.0)/160.0*dnear*w,-dnear);
-				gl.glVertex3d((xmin-160.0)/160*dfar*w,-(ymin-120.0)/160.0*dfar*w,-dfar);
-				
-				for(i=ymin;i<ymax;i+=30)
-				{
-					gl.glVertex3d((xmin-160.0)/160*dnear*w,-(i-120.0)/160.0*dnear*w,-dnear);
-					gl.glVertex3d((xmin-160.0)/160*dfar*w,-(i-120.0)/160.0*dfar*w,-dfar);
-				}
-
-				gl.glVertex3d((xmax-160.0)/160*dnear*w,-(ymin-120.0)/160.0*dnear*w,-dnear);
-				gl.glVertex3d((xmax-160.0)/160*dfar*w,-(ymin-120.0)/160.0*dfar*w,-dfar);
-				
-				for(i=ymin;i<ymax;i+=30)
-				{
-					gl.glVertex3d((xmax-160.0)/160*dnear*w,-(i-120.0)/160.0*dnear*w,-dnear);
-					gl.glVertex3d((xmax-160.0)/160*dfar*w,-(i-120.0)/160.0*dfar*w,-dfar);
-				}
-
-				gl.glVertex3d((xmax-160.0)/160*dnear*w,-(ymax-120.0)/160.0*dnear*w,-dnear);
-				gl.glVertex3d((xmax-160.0)/160*dfar*w,-(ymax-120.0)/160.0*dfar*w,-dfar);
-				
-				for(i=xmin;i<xmax;i+=30)
-				{
-					gl.glVertex3d((i-160.0)/160*dnear*w,-(ymin-120.0)/160.0*dnear*w,-dnear);
-					gl.glVertex3d((i-160.0)/160*dfar*w,-(ymin-120.0)/160.0*dfar*w,-dfar);
-			
-				}
-				
-				gl.glVertex3d((xmin-160.0)/160*dnear*w,-(ymax-120.0)/160.0*dnear*w,-dnear);
-				gl.glVertex3d((xmin-160.0)/160*dfar*w,-(ymax-120.0)/160.0*dfar*w,-dfar);
-
-				for(i=xmin;i<xmax;i+=30)
-				{
-					gl.glVertex3d((i-160.0)/160*dnear*w,-(ymax-120.0)/160.0*dnear*w,-dnear);
-					gl.glVertex3d((i-160.0)/160*dfar*w,-(ymax-120.0)/160.0*dfar*w,-dfar);
-				}
-				
-			gl.glEnd();
-		}
+//		public static void drawFOVbox(GL2 gl)
+	//		{
+	//			//Near Rectangle:(90cm x 67cm)  Far Rectangle:(4.6m x 3.36m)
+	//
+	//			float w=(320f/2.0f)/285.63f;
+	//			int ymin=0;//max(0-allignY,0);
+	//			int xmin=0;//max(0-allignX,0);
+	//			int ymax=240;//min(240-allignY,240);
+	//			int xmax=320;//min(320-allignX,320);
+	//			float dnear=0.8f;
+	//			float dfar=4.0f;
+	//
+	//			gl.glDisable(GL2.GL_TEXTURE_2D);
+	//			gl.glColor3f(1,0,0);
+	//			gl.glBegin(GL2.GL_LINES);
+	//			gl.glVertex3d((xmin-160.0)/160*dnear*w,-(ymin-120.0)/160.0*dnear*w,-dnear);
+	//			gl.glVertex3d((xmax-160.0)/160*dnear*w,-(ymin-120.0)/160.0*dnear*w,-dnear);
+	//
+	//			gl.glVertex3d((xmax-160.0)/160*dnear*w,-(ymin-120.0)/160.0*dnear*w,-dnear);
+	//			gl.glVertex3d((xmax-160.0)/160*dnear*w,-(ymax-120.0)/160.0*dnear*w,-dnear);
+	//
+	//
+	//			gl.glVertex3d((xmax-160.0)/160*dnear*w,-(ymax-120.0)/160.0*dnear*w,-dnear);
+	//			gl.glVertex3d((xmin-160.0)/160*dnear*w,-(ymax-120.0)/160.0*dnear*w,-dnear);
+	//
+	//			gl.glVertex3d((xmin-160.0)/160*dnear*w,-(ymax-120.0)/160.0*dnear*w,-dnear);
+	//			gl.glVertex3d((xmin-160.0)/160*dnear*w,-(ymin-120.0)/160.0*dnear*w,-dnear);
+	//
+	//			gl.glVertex3d((xmin-160.0)/160*dfar*w,-(ymin-120.0)/160.0*dfar*w,-dfar);
+	//			gl.glVertex3d((xmax-160.0)/160*dfar*w,-(ymin-120.0)/160.0*dfar*w,-dfar);
+	//
+	//			gl.glVertex3d((xmax-160.0)/160*dfar*w,-(ymin-120.0)/160.0*dfar*w,-dfar);
+	//			gl.glVertex3d((xmax-160.0)/160*dfar*w,-(ymax-120.0)/160.0*dfar*w,-dfar);
+	//
+	//			gl.glVertex3d((xmax-160.0)/160*dfar*w,-(ymax-120.0)/160.0*dfar*w,-dfar);
+	//			gl.glVertex3d((xmin-160.0)/160*dfar*w,-(ymax-120.0)/160.0*dfar*w,-dfar);
+	//
+	//			gl.glVertex3d((xmin-160.0)/160*dfar*w,-(ymax-120.0)/160.0*dfar*w,-dfar);
+	//			gl.glVertex3d((xmin-160.0)/160*dfar*w,-(ymin-120.0)/160.0*dfar*w,-dfar);
+	//
+	//				int i;
+	//				for(i=xmin;i<xmax;i+=30)
+	//				{
+	//					gl.glVertex3d((i-160.0)/160*dfar*w,-(ymin-120.0)/160.0*dfar*w,-dfar);
+	//					gl.glVertex3d((i-160.0)/160*dfar*w,-(ymax-120.0)/160.0*dfar*w,-dfar);
+	//				}
+	//				for(i=ymin;i<ymax;i+=30)
+	//				{
+	//					gl.glVertex3d((xmax-160.0)/160*dfar*w,-(i-120.0)/160.0*dfar*w,-dfar);
+	//					gl.glVertex3d((xmin-160.0)/160*dfar*w,-(i-120.0)/160.0*dfar*w,-dfar);
+	//				}
+	//
+	//				gl.glVertex3d((xmin-160.0)/160*dnear*w,-(ymin-120.0)/160.0*dnear*w,-dnear);
+	//				gl.glVertex3d((xmin-160.0)/160*dfar*w,-(ymin-120.0)/160.0*dfar*w,-dfar);
+	//
+	//				for(i=ymin;i<ymax;i+=30)
+	//				{
+	//					gl.glVertex3d((xmin-160.0)/160*dnear*w,-(i-120.0)/160.0*dnear*w,-dnear);
+	//					gl.glVertex3d((xmin-160.0)/160*dfar*w,-(i-120.0)/160.0*dfar*w,-dfar);
+	//				}
+	//
+	//				gl.glVertex3d((xmax-160.0)/160*dnear*w,-(ymin-120.0)/160.0*dnear*w,-dnear);
+	//				gl.glVertex3d((xmax-160.0)/160*dfar*w,-(ymin-120.0)/160.0*dfar*w,-dfar);
+	//
+	//				for(i=ymin;i<ymax;i+=30)
+	//				{
+	//					gl.glVertex3d((xmax-160.0)/160*dnear*w,-(i-120.0)/160.0*dnear*w,-dnear);
+	//					gl.glVertex3d((xmax-160.0)/160*dfar*w,-(i-120.0)/160.0*dfar*w,-dfar);
+	//				}
+	//
+	//				gl.glVertex3d((xmax-160.0)/160*dnear*w,-(ymax-120.0)/160.0*dnear*w,-dnear);
+	//				gl.glVertex3d((xmax-160.0)/160*dfar*w,-(ymax-120.0)/160.0*dfar*w,-dfar);
+	//
+	//				for(i=xmin;i<xmax;i+=30)
+	//				{
+	//					gl.glVertex3d((i-160.0)/160*dnear*w,-(ymin-120.0)/160.0*dnear*w,-dnear);
+	//					gl.glVertex3d((i-160.0)/160*dfar*w,-(ymin-120.0)/160.0*dfar*w,-dfar);
+	//
+	//				}
+	//
+	//				gl.glVertex3d((xmin-160.0)/160*dnear*w,-(ymax-120.0)/160.0*dnear*w,-dnear);
+	//				gl.glVertex3d((xmin-160.0)/160*dfar*w,-(ymax-120.0)/160.0*dfar*w,-dfar);
+	//
+	//				for(i=xmin;i<xmax;i+=30)
+	//				{
+	//					gl.glVertex3d((i-160.0)/160*dnear*w,-(ymax-120.0)/160.0*dnear*w,-dnear);
+	//					gl.glVertex3d((i-160.0)/160*dfar*w,-(ymax-120.0)/160.0*dfar*w,-dfar);
+	//				}
+	//
+	//			gl.glEnd();
+	//		}
 }

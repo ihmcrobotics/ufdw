@@ -1,24 +1,7 @@
 package edu.ufl.digitalworlds.j4k;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.lang.Float;
-
-import javax.media.opengl.GL2;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
-import edu.ufl.digitalworlds.math.Geom;
 import edu.ufl.digitalworlds.math.FloatFilter;
+import edu.ufl.digitalworlds.math.Geom;
 import edu.ufl.digitalworlds.math.VectorFilter;
 
 /*
@@ -366,97 +349,97 @@ public abstract class Avatar{
 	
 	
 	
-	public void draw(GL2 gl,Skeleton sk)
-	{
-		if(sk==null)return;
-		if(!sk.isTracked())return;
-		
-		double mat[]=Geom.identity4();
-		double inv_mat[]=Geom.identity4();      
-		float s;
-		
-		sk.getTorsoTransform(mat,inv_mat);
-		gl.glPushMatrix();
-  			gl.glMultMatrixd(mat,0);
-  			s=length[TORSO].value();
-  			gl.glScalef(s,s,s);
-  			drawTorso();
-  		gl.glPopMatrix();
-  		
-		sk.getFixHeadTransform(mat,inv_mat);
-		gl.glPushMatrix();
-  			gl.glMultMatrixd(mat,0);
-  			s=length[HEAD].value();
-  			gl.glScalef(s,s,s);
-  			drawHead();
-  		gl.glPopMatrix();
-		
-		sk.getLeftThighTransform(mat,inv_mat);
-		gl.glPushMatrix();
-  			gl.glMultMatrixd(mat,0);
-  			s=length[THIGH_LEFT].value();
-  			gl.glScalef(s,s,s);
-  			drawLeftThigh(mat);
-  		gl.glPopMatrix();
-  		
-  		sk.getLeftLegTransform(mat,inv_mat);
-		gl.glPushMatrix();
-  			gl.glMultMatrixd(mat,0);
-  			s=length[LEG_LEFT].value();
-  			gl.glScalef(s,s,s);
-  			drawLeftLeg(mat);
-  		gl.glPopMatrix();
-  		
-  		sk.getRightThighTransform(mat,inv_mat);
-		gl.glPushMatrix();
-  			gl.glMultMatrixd(mat,0);
-  			s=length[THIGH_RIGHT].value();
-  			gl.glScalef(s,s,s);
-  			drawRightThigh(mat);
-  		gl.glPopMatrix();
-  		
-  		sk.getRightLegTransform(mat,inv_mat);
-		gl.glPushMatrix();
-  			gl.glMultMatrixd(mat,0);
-  			s=length[LEG_RIGHT].value();
-  			gl.glScalef(s,s,s);
-  			drawRightLeg(mat);
-  		gl.glPopMatrix();
-		
-  		
-  		sk.getLeftArmTransform(mat,inv_mat);
-		gl.glPushMatrix();
-  			gl.glMultMatrixd(mat,0);
-  			s=length[ARM_LEFT].value();
-  			gl.glScalef(s,s,s);
-  			drawLeftArm(mat);
-  		gl.glPopMatrix();
-  		
-  		sk.getLeftForearmTransform(mat,inv_mat);
-		gl.glPushMatrix();
-  			gl.glMultMatrixd(mat,0);
-  			s=length[FOREARM_LEFT].value();
-  			gl.glScalef(s,s,s);
-  			drawLeftForearm(mat);
-  		gl.glPopMatrix();
-  		
-  		sk.getRightArmTransform(mat,inv_mat);
-		gl.glPushMatrix();
-  			gl.glMultMatrixd(mat,0);
-  			s=length[ARM_RIGHT].value();
-  			gl.glScalef(s,s,s);
-  			drawRightArm(mat);
-  		gl.glPopMatrix();
-  		
-  		sk.getRightForearmTransform(mat,inv_mat);
-		gl.glPushMatrix();
-  			gl.glMultMatrixd(mat,0);
-  			s=length[FOREARM_RIGHT].value();
-  			gl.glScalef(s,s,s);
-  			drawRightForearm(mat);
-  		gl.glPopMatrix();
-  		
-	}
+//	public void draw(GL2 gl,Skeleton sk)
+	//	{
+	//		if(sk==null)return;
+	//		if(!sk.isTracked())return;
+	//
+	//		double mat[]=Geom.identity4();
+	//		double inv_mat[]=Geom.identity4();
+	//		float s;
+	//
+	//		sk.getTorsoTransform(mat,inv_mat);
+	//		gl.glPushMatrix();
+	//  			gl.glMultMatrixd(mat,0);
+	//  			s=length[TORSO].value();
+	//  			gl.glScalef(s,s,s);
+	//  			drawTorso();
+	//  		gl.glPopMatrix();
+	//
+	//		sk.getFixHeadTransform(mat,inv_mat);
+	//		gl.glPushMatrix();
+	//  			gl.glMultMatrixd(mat,0);
+	//  			s=length[HEAD].value();
+	//  			gl.glScalef(s,s,s);
+	//  			drawHead();
+	//  		gl.glPopMatrix();
+	//
+	//		sk.getLeftThighTransform(mat,inv_mat);
+	//		gl.glPushMatrix();
+	//  			gl.glMultMatrixd(mat,0);
+	//  			s=length[THIGH_LEFT].value();
+	//  			gl.glScalef(s,s,s);
+	//  			drawLeftThigh(mat);
+	//  		gl.glPopMatrix();
+	//
+	//  		sk.getLeftLegTransform(mat,inv_mat);
+	//		gl.glPushMatrix();
+	//  			gl.glMultMatrixd(mat,0);
+	//  			s=length[LEG_LEFT].value();
+	//  			gl.glScalef(s,s,s);
+	//  			drawLeftLeg(mat);
+	//  		gl.glPopMatrix();
+	//
+	//  		sk.getRightThighTransform(mat,inv_mat);
+	//		gl.glPushMatrix();
+	//  			gl.glMultMatrixd(mat,0);
+	//  			s=length[THIGH_RIGHT].value();
+	//  			gl.glScalef(s,s,s);
+	//  			drawRightThigh(mat);
+	//  		gl.glPopMatrix();
+	//
+	//  		sk.getRightLegTransform(mat,inv_mat);
+	//		gl.glPushMatrix();
+	//  			gl.glMultMatrixd(mat,0);
+	//  			s=length[LEG_RIGHT].value();
+	//  			gl.glScalef(s,s,s);
+	//  			drawRightLeg(mat);
+	//  		gl.glPopMatrix();
+	//
+	//
+	//  		sk.getLeftArmTransform(mat,inv_mat);
+	//		gl.glPushMatrix();
+	//  			gl.glMultMatrixd(mat,0);
+	//  			s=length[ARM_LEFT].value();
+	//  			gl.glScalef(s,s,s);
+	//  			drawLeftArm(mat);
+	//  		gl.glPopMatrix();
+	//
+	//  		sk.getLeftForearmTransform(mat,inv_mat);
+	//		gl.glPushMatrix();
+	//  			gl.glMultMatrixd(mat,0);
+	//  			s=length[FOREARM_LEFT].value();
+	//  			gl.glScalef(s,s,s);
+	//  			drawLeftForearm(mat);
+	//  		gl.glPopMatrix();
+	//
+	//  		sk.getRightArmTransform(mat,inv_mat);
+	//		gl.glPushMatrix();
+	//  			gl.glMultMatrixd(mat,0);
+	//  			s=length[ARM_RIGHT].value();
+	//  			gl.glScalef(s,s,s);
+	//  			drawRightArm(mat);
+	//  		gl.glPopMatrix();
+	//
+	//  		sk.getRightForearmTransform(mat,inv_mat);
+	//		gl.glPushMatrix();
+	//  			gl.glMultMatrixd(mat,0);
+	//  			s=length[FOREARM_RIGHT].value();
+	//  			gl.glScalef(s,s,s);
+	//  			drawRightForearm(mat);
+	//  		gl.glPopMatrix();
+	//
+	//	}
 	
 	/*public void load(InputStream is)
 	{
