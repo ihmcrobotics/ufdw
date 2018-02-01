@@ -11,7 +11,7 @@ apply plugin: "us.ihmc.ihmc-build"
 
 ihmc {
    group = "us.ihmc"
-   version = "2.0.01-150124"
+   version = "2.0.0-150124"
    vcsUrl = "https://github.com/ihmcrobotics/ufdw"
    openSource = false
 
