@@ -658,7 +658,7 @@ public abstract class J4KSDK {
 	
 	public abstract void onColorFrameEvent(byte[] color_data);
 	
-	public abstract void onSkeletonFrameEvent(boolean[] flags, float[] joint_positions, float[] joint_orientations, byte[] joint_state);
+	public abstract double[] onSkeletonFrameEvent(boolean[] flags, float[] joint_positions, float[] joint_orientations, byte[] joint_state);
 	
 	public void onInfraredFrameEvent(short[] data){}
 	

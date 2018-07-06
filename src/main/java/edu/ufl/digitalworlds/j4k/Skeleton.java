@@ -80,7 +80,7 @@ public class Skeleton
 	protected byte joint_state[];
 	protected int id;
 	protected int times_drawn;
-	
+
 	public Skeleton()
 	{
 		joint_position=new float[JOINT_COUNT*3];
